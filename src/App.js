@@ -1,25 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Router } from 'react-router-dom';
+
+// Esse provider vai deixar disponivel o nosso store da aplicação, que é o arquivo que criamos
+// em src/store/index que é nosso estado global disponivel para todos nossos componentes
+// Então jogamos ele por volta de todos os componentes da aplicação todas as rotas
+// passamos uma propriedade chamada store que passa o store como parametro
+// Agora toda a aplicação tem acesso ao store
+import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+
+// Importar as configurações do reactotron antes do store
+import './config/ReactotronConfig';
+
+import GlobalStyle from './styles/global';
+import Header from './components/Header';
+import Routes from './routes';
+
+import history from './services/history';
+import store from './store';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <Router history={history}>
+        <Header />
+        <Routes />
+
+        <GlobalStyle />
+        <ToastContainer autoClose={3000} />
+      </Router>
+    </Provider>
   );
 }
 
